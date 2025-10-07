@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My task-memo page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 700px;
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-bold {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn-bold:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+        
+        .btn-bold.active {
+            background: #764ba2;
+        }
+        
+        .btn-normal {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .btn-normal:hover {
+            background: #d0d0d0;
+            transform: scale(1.05);
+        }
+        
+        .btn-normal.active {
+            background: #999;
+        }
+        
+        .btn-download {
+            background: #4caf50;
+            color: white;
+            margin-left: auto;
+        }
+        
+        .btn-download:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        
+        .btn-clear {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #da190b;
+            transform: scale(1.05);
+        }
+        
+        #memoInput {
+            width: 100%;
+            height: 400px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Arial', sans-serif;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        #memoInput:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+        
+        .info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 My task-memo page</h1>
+        
+        <div class="toolbar">
+            <button class="btn-bold active" onclick="toggleBold()"><b>太文字</b></button>
+            <button class="btn-normal" onclick="toggleNormal()">標準文字</button>
+            <button class="btn-download" onclick="downloadMemo()">📥 ダウンロード</button>
+            <button class="btn-clear" onclick="clearMemo()">🗑️ クリア</button>
+        </div>
+        
+        <textarea id="memoInput" placeholder="ここにメモを入力してください..."></textarea>
+        
+        <div class="info">
+            💡 ヒント: ブラウザが開いている間はデータが保存されます。ページを更新すると初期化されます。
+        </div>
+    </div>
+    
+    <script>
+        let isBold = true; // 初期状態は太文字
+        const memoInput = document.getElementById('memoInput');
+        
+        // 太文字に切り替え
+        function toggleBold() {
+            isBold = true;
+            updateButtonStates();
+            memoInput.style.fontWeight = 'bold';
+            memoInput.focus();
+        }
+        
+        // 標準文字に切り替え
+        function toggleNormal() {
+            isBold = false;
+            updateButtonStates();
+            memoInput.style.fontWeight = 'normal';
+            memoInput.focus();
+        }
+        
+        // ボタンの状態を更新
+        function updateButtonStates() {
+            const boldBtn = document.querySelector('.btn-bold');
+            const normalBtn = document.querySelector('.btn-normal');
+            
+            if (isBold) {
+                boldBtn.classList.add('active');
+                normalBtn.classList.remove('active');
+            } else {
+                boldBtn.classList.remove('active');
+                normalBtn.classList.add('active');
+            }
+        }
+        
+        // メモをダウンロード
+        function downloadMemo() {
+            const text = memoInput.value;
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', 'memo.txt');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+        
+        // メモをクリア
+        function clearMemo() {
+            if (confirm('本当にクリアしますか？')) {
+                memoInput.value = '';
+                memoInput.focus();
+            }
+        }
+        
+        // 初期フォント設定
+        memoInput.style.fontWeight = 'bold';
+    </script>
+</body>
+</html>
