@@ -1,7 +1,7 @@
 # memotyoooo
 #8日目（アプリ100日チャレンジ）　簡素なメモ帳アプリです。
 
-ここからPlayできます：https://ramune3.github.io/cycling-game/bicycle_game_html.html
+ここからPlayできます：https://ramune3.github.io/memotyoooo/browser_memo_pad.html
 
 本体のコード：browser_memo_pad.html
 
